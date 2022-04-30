@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        background-color: #eee;
+      }
+
+      .card {
+        width: 340px;
+        border-radius: 35px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+
+      .total-amount {
+        font-size: 22px;
+        font-weight: 700;
+        color: #383737;
+      }
+
+      .amount-container {
+        background-color: #e9eaeb;
+        padding: 6px;
+        padding-left: 15px;
+        padding-right: 15px;
+        border-radius: 8px;
+      }
+
+      .amount-text {
+        font-size: 20px;
+        font-weight: 700;
+        color: #673ab7;
+      }
+
+      .dollar-sign {
+        font-size: 20px;
+        font-weight: 700;
+        color: #000;
+      }
+
+      .label-text {
+        font-size: 16px;
+        font-weight: 600;
+        color: #b2b2b2;
+      }
+
+      .credit-card-number {
+        width: 290px;
+        z-index: 28;
+        border: 2px solid #ced4da;
+        border-radius: 6px;
+        font-weight: 600;
+      }
+
+      .credit-card-number:focus {
+        box-shadow: none;
+        border: 2px solid #673ab7;
+      }
+
+      .visa-icon {
+        position: relative;
+        top: 42px;
+        right: 14px;
+        z-index: 30;
+      }
+
+      .expiry-class {
+        width: 120px;
+        border: 2px solid #ced4da;
+        font-weight: 600;
+        font-size: 12px;
+        height: 48px;
+      }
+
+      .expiry-class:focus {
+        box-shadow: none;
+        border: 2px solid #673ab7;
+      }
+
+      .cvv-class {
+        width: 120px;
+        border: 2px solid #ced4da;
+        font-weight: 600;
+        font-size: 12px;
+        height: 48px;
+      }
+
+      .cvv-class:focus {
+        box-shadow: none;
+        border: 2px solid #673ab7;
+      }
+
+      .payment-btn {
+        background-color: #673ab7;
+        padding: 15px;
+        padding-left: 25px;
+        padding-right: 25px;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 12px;
+      }
+
+      .payment-btn:hover {
+        box-shadow: none;
+        color: #fff;
+      }
+
+      .cancel-btn {
+        background-color: #fff;
+        color: #b2b2b2;
+        padding: 0px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        font-weight: 600;
+        border-radius: 6px;
+      }
+
+      .cancel-btn:hover {
+        border: 2px solid #b2b2b2;
+        color: #b2b2b2;
+      }
+
+      .cancel-btn:focus {
+        box-shadow: none;
+      }
+
+      .label-text-cc-number {
+        position: relative;
+        top: 4px;
+      }
+
+      @keyframes firework-animation {
+        0% {
+          background-color: #ff8426;
+        }
+        25% {
+          background-color: #fffc84;
+        }
+        50% {
+          background-color: #ff83f4;
+        }
+        75% {
+          background-color: #83b6ff;
+        }
+        100% {
+          background-color: #ff8426;
+        }
+      }
+      @-webkit-keyframes firework-animation {
+        0% {
+          background-color: #ff8426;
+        }
+        25% {
+          background-color: #fffc84;
+        }
+        50% {
+          background-color: #ff83f4;
+        }
+        75% {
+          background-color: #83b6ff;
+        }
+        100% {
+          background-color: #ff8426;
+        }
+      }
+      .fireWorkParticle {
+        z-index: 999;
+        position: absolute;
+        height: 5px;
+        width: 5px;
+        border-radius: 5px;
+        animation-name: firework-animation;
+        animation-timing-function: linear;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+      }
+      #canvas {
+        height: 100%;
+        width: 100%;
+        /* background-color: black; */
+        display: none;
+        margin-top: 10px;
+      }
+
+      #maincontainer{
+          display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5 d-flex justify-content-center" id="maincontainer">
+      <div class="card p-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="total-amount">Total amount</h5>
+          <div class="amount-container">
+            <span class="amount-text"
+              ><span class="dollar-sign">$</span>375</span
+            >
+          </div>
+        </div>
+        <div class="pt-4">
+          <label class="d-flex justify-content-between">
+            <span class="label-text label-text-cc-number">CARD NUMBER</span
+            ><img
+              src="https://img.icons8.com/dusk/64/000000/visa.png"
+              width="30"
+              class="visa-icon"
+          /></label>
+          <input
+            type="tel"
+            name="credit-number"
+            class="form-control credit-card-number"
+            maxlength="19"
+            placeholder="Card number"
+          />
+        </div>
+        <div class="d-flex justify-content-between pt-4">
+          <div>
+            <label><span class="label-text">EXPIRY</span> </label>
+            <input
+              type="date"
+              name="expiry-date"
+              class="form-control expiry-class"
+              placeholder="MM / YY"
+            />
+          </div>
+          <div>
+            <label><span class="label-text">CVV</span></label>
+            <input
+              type="tel"
+              name="cvv-number"
+              class="form-control cvv-class"
+              maxlength="4"
+              pattern="\d*"
+            />
+          </div>
+        </div>
+        <div class="d-flex justify-content-between pt-5 align-items-center">
+          <a href="/">
+            <button type="button" class="btn cancel-btn">Cancel</button></a
+          >
+          <button type="button" class="btn payment-btn" onclick="sucess()">Make Payment</button>
+        </div>
+        <!-- <div class = "fireWorkParticle"></div> -->
+        <canvas id="canvas"></canvas>
+    </div>
+    </div>
+  </body>
+
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    const canvas = document.getElementById("canvas");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var ctx = canvas.getContext("2d");
+    function Firework(x, y, height, yVol, R, G, B) {
+      this.x = x;
+      this.y = y;
+      this.yVol = yVol;
+      this.height = height;
+      this.R = R;
+      this.G = G;
+      this.B = B;
+      this.radius = 2;
+      this.boom = false;
+      var boomHeight = Math.floor(Math.random() * 200) + 50;
+      this.draw = function () {
+        ctx.fillStyle = "rgba(" + R + "," + G + "," + B + ")";
+        ctx.strokeStyle = "rgba(" + R + "," + G + "," + B + ")";
+        ctx.beginPath();
+        //   ctx.arc(this.x,boomHeight,this.radius,Math.PI * 2,0,false);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 3, Math.PI * 2, 0, false);
+        ctx.fill();
+      };
+      this.update = function () {
+        this.y -= this.yVol;
+        if (this.radius < 20) {
+          this.radius += 0.35;
+        }
+        if (this.y < boomHeight) {
+          this.boom = true;
+
+          for (var i = 0; i < 120; i++) {
+            particleArray.push(
+              new Particle(
+                this.x,
+                this.y,
+                // (Math.random() * 2) + 0.5//
+                Math.random() * 2 + 1,
+                this.R,
+                this.G,
+                this.B,
+                1
+              )
+            );
+          }
+        }
+        this.draw();
+      };
+      this.update();
+    }
+
+    window.addEventListener("click", (e) => {
+      var x = e.clientX;
+      var y = canvas.height;
+      var R = Math.floor(Math.random() * 255);
+      var G = Math.floor(Math.random() * 255);
+      var B = Math.floor(Math.random() * 255);
+      var height = Math.floor(Math.random() * 20) + 10;
+      fireworkArray.push(new Firework(x, y, height, 5, R, G, B));
+    });
+
+    function Particle(x, y, radius, R, G, B, A) {
+      this.x = x;
+      this.y = y;
+      this.radius = radius;
+      this.R = R;
+      this.G = G;
+      this.B = B;
+      this.A = A;
+      this.timer = 0;
+      this.fade = false;
+
+      // Change random spread
+      this.xVol = Math.random() * 10 - 4;
+      this.yVol = Math.random() * 10 - 4;
+
+      console.log(this.xVol, this.yVol);
+      this.draw = function () {
+        //   ctx.globalCompositeOperation = "lighter"
+        ctx.fillStyle = "rgba(" + R + "," + G + "," + B + "," + this.A + ")";
+        ctx.save();
+        ctx.beginPath();
+        // ctx.fillStyle = "white"
+        ctx.globalCompositeOperation = "screen";
+        ctx.arc(this.x, this.y, this.radius, Math.PI * 2, 0, false);
+        ctx.fill();
+
+        ctx.restore();
+      };
+      this.update = function () {
+        this.x += this.xVol;
+        this.y += this.yVol;
+
+        // Comment out to stop gravity.
+        if (this.timer < 200) {
+          this.yVol += 0.12;
+        }
+        this.A -= 0.02;
+        if (this.A < 0) {
+          this.fade = true;
+        }
+        this.draw();
+      };
+      this.update();
+    }
+
+    var fireworkArray = [];
+    var particleArray = [];
+    for (var i = 0; i < 6; i++) {
+      var x = Math.random() * canvas.width;
+      var y = canvas.height;
+      var R = Math.floor(Math.random() * 255);
+      var G = Math.floor(Math.random() * 255);
+      var B = Math.floor(Math.random() * 255);
+      var height = Math.floor(Math.random() * 20) + 10;
+      fireworkArray.push(new Firework(x, y, height, 5, R, G, B));
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      // ctx.clearRect(0,0,canvas.width,canvas.height)
+      ctx.fillStyle = "rgba(0,0,0,0.1)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      for (var i = 0; i < fireworkArray.length; i++) {
+        fireworkArray[i].update();
+      }
+      for (var j = 0; j < particleArray.length; j++) {
+        particleArray[j].update();
+      }
+      if (fireworkArray.length < 4) {
+        var x = Math.random() * canvas.width;
+        var y = canvas.height;
+        var height = Math.floor(Math.random() * 20);
+        var yVol = 5;
+        var R = Math.floor(Math.random() * 255);
+        var G = Math.floor(Math.random() * 255);
+        var B = Math.floor(Math.random() * 255);
+        fireworkArray.push(new Firework(x, y, height, yVol, R, G, B));
+      }
+
+      fireworkArray = fireworkArray.filter((obj) => !obj.boom);
+      particleArray = particleArray.filter((obj) => !obj.fade);
+    }
+    animate();
+
+    window.addEventListener("resize", (e) => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+  <script>
+        function sucess() {
+            console.log("Inside function");
+            // document.getElementById("maincontainer").style.display = "none";  
+            document.getElementById("canvas").style.display = "block";  
+            // setTimeout(5000);      
+            // await delay(5);
+            // document.getElementById("canvas").style.display = "none";  
+            // document.getElementById("maincontainer").style.display = "block";  
+        }
+  </script>
+</html>
